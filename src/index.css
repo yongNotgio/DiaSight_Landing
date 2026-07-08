@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Self-hosted brand-typography stand-ins (SIL OFL, latin variable fonts).
+   Self-hosting avoids the Google Fonts CDN, which was being blocked/unreachable
+   and silently falling back to system fonts. Swap these for the licensed
+   Conthrax / TT Firs Neue @font-face when available — the stacks below list the
+   real names first, so no other change is needed. */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('/fonts/orbitron-latin-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('/fonts/manrope-latin-var.woff2') format('woff2');
+}
+
+:root {
+  /* Brand typography. Licensed fonts are listed first; the self-hosted
+     stand-ins (Orbitron ≈ Conthrax, Manrope ≈ TT Firs Neue) render until the
+     real @font-face files are added — no other changes needed then. */
+  --font-heading: 'Conthrax', 'Orbitron', system-ui, sans-serif;
+  --font-body: 'TT Firs Neue', 'Manrope', 'Inter', system-ui, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #000000;
+  color: #ffffff;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+@layer base {
+  /* "Heading" tier (Conthrax). Subheadings (h3–h6) + body stay on TT Firs Neue
+     via the body default. Add `font-sans` to an h1/h2 to opt back to body font. */
+  h1,
+  h2 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl;
+  }
+
+  /* Layered dark surface: top inner highlight + gradient face + soft drop shadow */
+  .card-depth {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0) 100%),
+      #050505;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 16px 40px -16px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Soft indigo light source at the top of a section */
+  .section-vignette {
+    position: relative;
+  }
+  .section-vignette::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 480px;
+    background: radial-gradient(55% 100% at 50% 0%, rgba(99, 102, 241, 0.07), transparent 70%);
+    pointer-events: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
